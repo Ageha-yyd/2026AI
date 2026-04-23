@@ -130,6 +130,8 @@ class GeneticAlgTSP:
             if gene in segment:
                 continue
             pos = i
+            # PMX mapping chain always ends because there is at least one
+            # unfilled position outside the exchanged segment for this gene.
             while True:
                 mapped_gene = int(parent1[pos])
                 pos = int(np.where(parent2 == mapped_gene)[0][0])
@@ -159,8 +161,8 @@ class GeneticAlgTSP:
             raise ValueError("num_iterations must be >= 0")
 
         for _ in range(num_iterations):
-            fitness_values = [self._fitness(ch) for ch in self.population]
-            lengths = [1.0 / f for f in fitness_values]
+            lengths = [self._tour_length(ch) for ch in self.population]
+            fitness_values = [1.0 / (length + EPSILON) for length in lengths]
             elite_indices = np.argsort(lengths)[: self.elite_size]
             next_population = [self.population[int(i)].copy() for i in elite_indices]
 

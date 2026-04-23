@@ -134,7 +134,7 @@ def IDA_star(puzzle: Sequence[Sequence[int]]) -> List[int]:
         if current.state == GOAL:
             return f, True
 
-        min_bound = float("inf")
+        next_threshold = float("inf")
         for nxt, moved_tile in _neighbors(current):
             if nxt in in_path:
                 continue
@@ -145,13 +145,13 @@ def IDA_star(puzzle: Sequence[Sequence[int]]) -> List[int]:
             nxt_bound, found = dfs(g + 1, bound)
             if found:
                 return nxt_bound, True
-            min_bound = min(min_bound, nxt_bound)
+            next_threshold = min(next_threshold, nxt_bound)
 
             path_moves.pop()
             path_nodes.pop()
             in_path.remove(nxt)
 
-        return min_bound, False
+        return next_threshold, False
 
     while True:
         nxt_bound, found = dfs(0, threshold)
