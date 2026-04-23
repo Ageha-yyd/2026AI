@@ -130,18 +130,16 @@ class GeneticAlgTSP:
             if gene in segment:
                 continue
             pos = i
-            # PMX mapping chain always ends because there is at least one
-            # unfilled position outside the exchanged segment for this gene.
-            steps = 0
-            while True:
+            # PMX mapping chain terminates when an unfilled position is found
+            # outside the exchanged segment for this gene.
+            for _ in range(n):
                 mapped_gene = int(parent1[pos])
                 pos = int(np.where(parent2 == mapped_gene)[0][0])
                 if child[pos] == -1:
                     child[pos] = gene
                     break
-                steps += 1
-                if steps > n:
-                    raise RuntimeError("PMX crossover mapping exceeded safe iteration bound")
+            else:
+                raise RuntimeError("PMX crossover mapping exceeded safe iteration bound")
 
         for i in range(n):
             if child[i] == -1:
