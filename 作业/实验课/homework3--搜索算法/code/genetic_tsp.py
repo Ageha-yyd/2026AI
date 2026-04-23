@@ -124,6 +124,7 @@ class GeneticAlgTSP:
         s, t = sorted(np.random.choice(n, size=2, replace=False))
         child[s : t + 1] = parent1[s : t + 1]
         segment = set(int(g) for g in child[s : t + 1])
+        p2_pos = {int(v): idx for idx, v in enumerate(parent2)}
 
         for i in range(s, t + 1):
             gene = int(parent2[i])
@@ -134,7 +135,7 @@ class GeneticAlgTSP:
             # conflicting parent2 gene can be placed without duplicates.
             for _ in range(n):
                 mapped_gene = int(parent1[pos])
-                pos = int(np.where(parent2 == mapped_gene)[0][0])
+                pos = p2_pos[mapped_gene]
                 if child[pos] == -1:
                     child[pos] = gene
                     break
