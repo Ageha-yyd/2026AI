@@ -50,7 +50,7 @@ def _is_solvable(state: Board) -> bool:
     inversions = 0
     for i in range(len(flat)):
         for j in range(i + 1, len(flat)):
-            inversions += flat[i] > flat[j]
+            inversions += 1 if flat[i] > flat[j] else 0
     blank_r, _ = _find_blank(state)
     row_from_bottom = 4 - blank_r
     return (inversions + row_from_bottom) % 2 == 1
