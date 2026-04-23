@@ -7,6 +7,8 @@ from typing import List, Sequence, Tuple
 
 import numpy as np
 
+EPSILON = 1e-12
+
 
 class GeneticAlgTSP:
     def __init__(
@@ -29,6 +31,8 @@ class GeneticAlgTSP:
             raise ValueError("elite_size must be in [0, population_size)")
         if tournament_size < 2:
             raise ValueError("tournament_size must be >= 2")
+        if tournament_size > population_size:
+            raise ValueError("tournament_size must be <= population_size")
 
         self.population_size = population_size
         self.crossover_rate = crossover_rate
@@ -107,7 +111,7 @@ class GeneticAlgTSP:
         return d
 
     def _fitness(self, chromosome: np.ndarray) -> float:
-        return 1.0 / (self._tour_length(chromosome) + 1e-12)
+        return 1.0 / (self._tour_length(chromosome) + EPSILON)
 
     def _select_parent(self, fitness_values: Sequence[float]) -> np.ndarray:
         idxs = np.random.choice(len(self.population), size=self.tournament_size, replace=False)

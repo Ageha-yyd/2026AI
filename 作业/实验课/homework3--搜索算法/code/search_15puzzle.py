@@ -159,7 +159,7 @@ def IDA_star(puzzle: Sequence[Sequence[int]]) -> List[int]:
             return path_moves.copy()
         if nxt_bound == float("inf"):
             return []
-        threshold = int(nxt_bound)
+        threshold = nxt_bound
 
 
 if __name__ == "__main__":
